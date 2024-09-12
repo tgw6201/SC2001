@@ -136,7 +136,7 @@ def fixedS_VS_arraySize(sValue,maxRange,pwr10=7,dupe=True):
         start = time.time()
         hybridSort(arr,sValue)
         end = time.time()
-        #print("ArraySize: ",10**i," Key Comparisons: ",hybridSortKeyComparision, " Time Taken: ",end-start)
+        print("ArraySize: ",10**i," Key Comparisons: ",hybridSortKeyComparision, " Time Taken: ",end-start)
         array_sizes.append(10**i)
         key_comparisons.append(hybridSortKeyComparision)
         times_taken.append(end - start)
@@ -177,7 +177,7 @@ def fixedArraySize_VS_sValue(startingS,endingS,stepS,size,maxRandArr,dupe=True):
         start = time.time()
         hybridSort(arr,i)
         end = time.time()
-        #print("S Value: ",i," Key Comparisons: ",hybridSortKeyComparision, " Time Taken: ",end-start)
+        print("S Value: ",i," Key Comparisons: ",hybridSortKeyComparision, " Time Taken: ",end-start)
         s_values.append(i)
         key_comparisons.append(hybridSortKeyComparision)
         times_taken.append(end - start)
@@ -187,6 +187,7 @@ def fixedArraySize_VS_sValue(startingS,endingS,stepS,size,maxRandArr,dupe=True):
     
     plt.subplot(1, 2, 1)
     plt.plot(s_values, key_comparisons, marker='o')
+    plt.yscale('log')
     plt.xlabel('S Value')
     plt.ylabel('Key Comparisons')
     plt.title(f'Hybrid Sort Key Comparisons for Array Size = {size}')
@@ -241,8 +242,8 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
     # Merge Sort
     start = time.time()
     merge_sort(arr)
-    #end = time.time()
-    #print("Merge Sort Key Comparisons: ",mergeSortKeyComparision, " Time Taken: ",end-start)
+    end = time.time()
+    print("Merge Sort Key Comparisons: ",mergeSortKeyComparision, " Time Taken: ", end-start)
     merge_time = time.time() - start
     merge_key_comparisons = mergeSortKeyComparision
     
@@ -263,7 +264,7 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
         plt.text(bar.get_x() + bar.get_width()/2, yval, f'{yval:.0f}', ha='center', va='bottom')
     
     plt.subplot(1, 2, 2)
-    bars = plt.bar(algorithms, key_comparisons, color=['blue', 'orange'])
+    bars = plt.bar(algorithms, times_taken, color=['blue', 'orange'])
     plt.ylabel('Time Taken (seconds)')
     plt.title(f'Comparison of Hybrid and Merge Sort (Array Size = {size})')
     
@@ -280,10 +281,10 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
 #fixedS_VS_arraySize(10,randomNumRange,7,True)
 
 ## To run part C.ii
-fixedArraySize_VS_sValue(1,50,1,10000000,50,True)
+#fixedArraySize_VS_sValue(1,50,1,1000,50,True)
 
 ## To run part C.iii
 #differentSValuesVSDifferentArraySize(1,50,1,randomNumRange,7,True)
 
 ## To run part D
-#hybridVsMerge(10000000, randomNumRange, 10, True)
+hybridVsMerge(1000, randomNumRange, 10, True)
