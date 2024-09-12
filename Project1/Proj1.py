@@ -2,7 +2,7 @@ import random
 import time
 import matplotlib.pyplot as plt
 
-maxArrSize = 10000000
+maxArrSize = 10000
 sValue = 25
 randomNumRange = 5000
 
@@ -256,6 +256,7 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
     
     plt.subplot(1, 2, 1)
     bars = plt.bar(algorithms, key_comparisons, color=['blue', 'orange'])
+    plt.yscale('log')
     plt.ylabel('Key Comparisons')
     plt.title(f'Comparison of Hybrid and Merge Sort (Array Size = {size})')
     
@@ -287,4 +288,4 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
 #differentSValuesVSDifferentArraySize(1,50,1,randomNumRange,7,True)
 
 ## To run part D
-hybridVsMerge(1000, randomNumRange, 10, True)
+hybridVsMerge(10000000, randomNumRange, 10, True)
