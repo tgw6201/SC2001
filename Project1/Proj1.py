@@ -210,7 +210,7 @@ def fixedArraySize_VS_sValue(startingS,endingS,stepS,size,maxRandArr,dupe=True):
     plt.show()
 
 ## Part C.iii
-def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr10=5,dupe=True, trials = 5):
+def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr10=5,dupe=True, trials = 10):
     global hybridSortKeyComparision
     
     optimal_S = startingS
@@ -230,10 +230,14 @@ def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr
             for k in range(trials):
                 hybridSortKeyComparision = 0
                 
+                # Set a fixed seed that depends on both S and array size
+                seed = 42 + i + j  # Ensures a different seed for each S and array size
+                #arr = initialize_array(10**j, arrMaxRange, dupe, seed=seed)
+                
                 if(dupe):
-                    arr = initialize_array(10**j,arrMaxRange,dupe)
+                    arr = initialize_array(10**j,arrMaxRange,dupe, seed=seed)
                 else:
-                    arr = initialize_array(10**j,arrMaxRange,dupe)
+                    arr = initialize_array(10**j,arrMaxRange,dupe, seed=seed)
                 
                 start = time.time()
                 hybridSort(arr,i)
@@ -268,7 +272,7 @@ def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr
         
     
     
-    print(f"Optimal S Value: {optimal_S} with {min_avg_comparisons} key comparisons")
+    print(f"Optimal S Value: {optimal_S} with {min_avg_comparisons} key comparisons\n")
     return optimal_S
         
 
@@ -338,7 +342,7 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
 #fixedArraySize_VS_sValue(1,50,1,1000,50,True)
 
 ## To run part C.iii
-differentSValuesVSDifferentArraySize(1,10,1,randomNumRange,5,True, 5)
+differentSValuesVSDifferentArraySize(1,10,1,randomNumRange,5,True, 10)
 
 ## To run part D
 #hybridVsMerge(10000000, randomNumRange, 10, True)
