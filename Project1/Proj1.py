@@ -1,6 +1,7 @@
 import random
 import time
 import matplotlib.pyplot as plt
+import math     #math for log2
 
 maxArrSize = 10000
 sValue = 25
@@ -167,23 +168,27 @@ def fixedArraySize_VS_sValue(startingS,endingS,stepS,size,maxRandArr,dupe=True):
     s_values = []
     key_comparisons = []
     times_taken = []
+    
     if(dupe):
             arr = initialize_array(size,maxRandArr,dupe) ##Enable this to fix the array values to allow comparison of S values' impact only. In theory, should make merging always the same
     else:
             arr = initialize_array(size,maxRandArr,dupe)
+
     for i in range(startingS,endingS+1,stepS):
         hybridSortKeyComparision = 0
         ##if(dupe):
         ##    arr = initialize_array(size,maxRandArr,dupe) ##what if we move this out of the for loop? we fix the N and n values by doing so we may have a better comparison
         ##else:
         ##    arr = initialize_array(size,maxRandArr,dupe)
-        start = time.time()
-        hybridSort(arr,i)
-        end = time.time()
-        print("S Value: ",i," Key Comparisons: ",hybridSortKeyComparision, " Time Taken: ",end-start)
-        s_values.append(i)
-        key_comparisons.append(hybridSortKeyComparision)
-        times_taken.append(end - start)
+        if (i==0): continue
+        else:
+            start = time.time()
+            hybridSort(arr,i)
+            end = time.time()
+            print("S Value: ",i," Key Comparisons: ",hybridSortKeyComparision, " Time Taken: ",end-start)
+            s_values.append(i)
+            key_comparisons.append(hybridSortKeyComparision)
+            times_taken.append(end - start)
     
     # Visualization
     plt.figure()
@@ -308,10 +313,11 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
 #fixedS_VS_arraySize(10,randomNumRange,7,True)
 
 ## To run part C.ii
-#fixedArraySize_VS_sValue(1,50,1,1000,50,True)
+##fixedArraySize_VS_sValue(0,180,1,10000,10000,False)
 
 ## To run part C.iii
-differentSValuesVSDifferentArraySize(1,5,1,randomNumRange,3,True)
+##differentSValuesVSDifferentArraySize(1,5,1,randomNumRange,3,True)
 
 ## To run part D
 #hybridVsMerge(10000000, randomNumRange, 10, True)
+
