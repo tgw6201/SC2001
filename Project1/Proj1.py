@@ -114,7 +114,10 @@ def hybridMergeSort(left, right):
 
 ## Part B generating input data
 ## Size referes to the max size of array, n refers to the range of numbers, and duplicate refers to whether the array can have duplicates
-def initialize_array(size, n, duplicate):
+def initialize_array(size, n, duplicate, seed = None):
+    if seed is not None:
+        random.seed(seed)
+    
     if(duplicate):
         return [random.randint(1, n) for _ in range(size)]
     else:
@@ -168,12 +171,17 @@ def fixedArraySize_VS_sValue(startingS,endingS,stepS,size,maxRandArr,dupe=True):
     key_comparisons = []
     times_taken = []
     
+    if(dupe):
+        arr = initialize_array(size,maxRandArr,dupe)
+    else:
+        arr = initialize_array(size,maxRandArr,dupe)
+    
     for i in range(startingS,endingS+1,stepS):
         hybridSortKeyComparision = 0
-        if(dupe):
-            arr = initialize_array(size,maxRandArr,dupe)
-        else:
-            arr = initialize_array(size,maxRandArr,dupe)
+        ##if(dupe):
+        ##    arr = initialize_array(size,maxRandArr,dupe)
+        ##else:
+        ##    arr = initialize_array(size,maxRandArr,dupe)
         start = time.time()
         hybridSort(arr,i)
         end = time.time()
@@ -202,7 +210,7 @@ def fixedArraySize_VS_sValue(startingS,endingS,stepS,size,maxRandArr,dupe=True):
     plt.show()
 
 ## Part C.iii
-def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr10=5,dupe=True):
+def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr10=5,dupe=True, trials = 5):
     global hybridSortKeyComparision
     
     optimal_S = startingS
@@ -214,20 +222,32 @@ def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr
         
         # Iterate through array sizes
         for j in range(3,pwr10+1):
-            hybridSortKeyComparision = 0
-            if(dupe):
-                arr = initialize_array(10**j,arrMaxRange,dupe)
-            else:
-                arr = initialize_array(10**j,arrMaxRange,dupe)
-            start = time.time()
-            hybridSort(arr,i)
-            end = time.time()
+            avg_comparisons = 0
+            avg_time = 0
             
-            total_comparisons += hybridSortKeyComparision
-            total_time += (end - start)
-            
-            # Print the intermediate results
-            print("S Value: ",i," ArraySize: ",10**j," Key Comparisons: ",hybridSortKeyComparision, " Time Taken: ",end-start)
+            # Perform multiple trials and average the results
+            for k in range(trials):
+                hybridSortKeyComparision = 0
+                
+                if(dupe):
+                    arr = initialize_array(10**j,arrMaxRange,dupe, seed = 42)
+                else:
+                    arr = initialize_array(10**j,arrMaxRange,dupe, seed = 42)
+                start = time.time()
+                hybridSort(arr,i)
+                end = time.time()
+                
+                avg_comparisons += hybridSortKeyComparision
+                avg_time += (end - start)
+        
+        # Calculate average comparisons and time taken
+        avg_comparisons /= trials
+        avg_time /= trials
+         
+        total_comparisons += avg_comparisons
+        total_time += avg_time    
+        # Print the intermediate results
+        print("S Value: ",i," ArraySize: ",10**j," Avg Key Comparisons: ",avg_comparisons, " Time Taken: ",avg_time)
         print("\n")
         
         # Check if current S value gives the least comparisons
