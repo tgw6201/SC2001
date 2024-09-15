@@ -167,13 +167,16 @@ def fixedArraySize_VS_sValue(startingS,endingS,stepS,size,maxRandArr,dupe=True):
     s_values = []
     key_comparisons = []
     times_taken = []
-    
+    if(dupe):
+            arr = initialize_array(size,maxRandArr,dupe) ##Enable this to fix the array values to allow comparison of S values' impact only. In theory, should make merging always the same
+    else:
+            arr = initialize_array(size,maxRandArr,dupe)
     for i in range(startingS,endingS+1,stepS):
         hybridSortKeyComparision = 0
-        if(dupe):
-            arr = initialize_array(size,maxRandArr,dupe)
-        else:
-            arr = initialize_array(size,maxRandArr,dupe)
+        ##if(dupe):
+        ##    arr = initialize_array(size,maxRandArr,dupe) ##what if we move this out of the for loop? we fix the N and n values by doing so we may have a better comparison
+        ##else:
+        ##    arr = initialize_array(size,maxRandArr,dupe)
         start = time.time()
         hybridSort(arr,i)
         end = time.time()
