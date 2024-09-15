@@ -190,7 +190,9 @@ def fixedArraySize_VS_sValue(startingS,endingS,stepS,size,maxRandArr,dupe=True):
             key_comparisons.append(hybridSortKeyComparision)
             times_taken.append(end - start)
     
-    # Visualization
+    
+# Visualization attempt
+
     plt.figure()
     
     plt.subplot(1, 2, 1)
@@ -199,15 +201,50 @@ def fixedArraySize_VS_sValue(startingS,endingS,stepS,size,maxRandArr,dupe=True):
     plt.xlabel('S Value')
     plt.ylabel('Key Comparisons')
     plt.title(f'Hybrid Sort Key Comparisons for Array Size = {size}')
-    
+
     plt.subplot(1, 2, 2)
     plt.plot(s_values, times_taken, marker='o')
     plt.xlabel('S Value')
     plt.ylabel('Time Taken (seconds)')
     plt.title(f'Hybrid Sort Time Taken for Array Size = {size}')
+    plt.tight_layout()
+    plt.show()
+
+    
+    #Visualization for best and worst cases
+    Bestcase=[]
+    Worstcase=[]
+    Sv=[]
+    for i in range(startingS,endingS+1,1):
+        if (i==0): continue
+        else:
+            Sv.append(i)
+            log = math.log2(size/i)
+            BestcaseformulaforstaticS = size 
+            BestcaseformulaforstaticS += size*log ##formula for best case i = S
+            Bestcase.append(BestcaseformulaforstaticS)
+            WorstcaseformulaforstaticS = size*i 
+            WorstcaseformulaforstaticS += size*log ##formula for worst case i = S
+            Worstcase.append(WorstcaseformulaforstaticS)
+
+
+    plt.subplot(1, 2, 1)
+    plt.plot(Sv, Bestcase, marker='o')
+    plt.yscale('log')
+    plt.xlabel('S Value')
+    plt.ylabel('Best case Key Comparisons')
+    plt.title(f'Best case Key Comparisons for Array Size = {size}')
+
+    plt.subplot(1, 2, 2)
+    plt.plot(Sv, Worstcase, marker='o')
+    plt.yscale('log')
+    plt.xlabel('S Value')
+    plt.ylabel('Worst case Key Comparisons')
+    plt.title(f'Worst case Key Comparisons for Array Size = {size}')
     
     plt.tight_layout()
     plt.show()
+
 
 ## Part C.iii
 def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr10=5,dupe=True):
@@ -313,11 +350,12 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
 #fixedS_VS_arraySize(10,randomNumRange,7,True)
 
 ## To run part C.ii
-##fixedArraySize_VS_sValue(0,180,1,10000,10000,False)
+fixedArraySize_VS_sValue(0,10000,1,10000,10000,False)
 
 ## To run part C.iii
 ##differentSValuesVSDifferentArraySize(1,5,1,randomNumRange,3,True)
 
 ## To run part D
 #hybridVsMerge(10000000, randomNumRange, 10, True)
+
 
