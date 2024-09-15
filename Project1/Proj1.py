@@ -214,11 +214,12 @@ def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr
     global hybridSortKeyComparision
     
     optimal_S = startingS
-    min_comparisons = float('inf')  # Initialize minimum comparisons to a high value
+    min_avg_comparisons = float('inf')  # Initialize minimum comparisons to a high value
     
     for i in range(startingS,endingS+1,stepS):
         total_comparisons = 0
         total_time = 0
+        num_sizes = 0  # Track the number of array sizes
         
         # Iterate through array sizes
         for j in range(3,pwr10+1):
@@ -230,9 +231,10 @@ def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr
                 hybridSortKeyComparision = 0
                 
                 if(dupe):
-                    arr = initialize_array(10**j,arrMaxRange,dupe, seed = 42)
+                    arr = initialize_array(10**j,arrMaxRange,dupe)
                 else:
-                    arr = initialize_array(10**j,arrMaxRange,dupe, seed = 42)
+                    arr = initialize_array(10**j,arrMaxRange,dupe)
+                
                 start = time.time()
                 hybridSort(arr,i)
                 end = time.time()
@@ -240,25 +242,33 @@ def differentSValuesVSDifferentArraySize(startingS,endingS,stepS,arrMaxRange,pwr
                 avg_comparisons += hybridSortKeyComparision
                 avg_time += (end - start)
         
-        # Calculate average comparisons and time taken
-        avg_comparisons /= trials
-        avg_time /= trials
-         
-        total_comparisons += avg_comparisons
-        total_time += avg_time    
-        # Print the intermediate results
-        print("S Value: ",i," ArraySize: ",10**j," Avg Key Comparisons: ",avg_comparisons, " Time Taken: ",avg_time)
-        print("\n")
+            # Calculate average comparisons and time taken
+            avg_comparisons /= trials
+            avg_time /= trials
+            
+            # Print the intermediate results
+            print("S Value: ",i," ArraySize: ",10**j," Avg Key Comparisons: ",avg_comparisons, " Avg Time Taken: ",avg_time)
+            print("\n")
+            
+            # Accumulate the total comparisons and time across array sizes for this S
+            total_comparisons += avg_comparisons
+            total_time += avg_time
+            num_sizes += 1  # Increment the number of array sizes tested
         
-        # Check if current S value gives the least comparisons
-        if total_comparisons < min_comparisons:
-            min_comparisons = total_comparisons
+        # Calculate the average comparisons across all array sizes for this S
+        avg_comparisons_overall = total_comparisons / num_sizes
+        avg_time_overall = total_time / num_sizes
+            
+        print(f"Avg Comparisons for S = {i}: {avg_comparisons_overall}, Avg Time: {avg_time_overall:.4f} seconds\n")
+            
+        # Check if the current S value gives the least average comparisons
+        if avg_comparisons_overall < min_avg_comparisons:
+            min_avg_comparisons = avg_comparisons_overall
             optimal_S = i
         
-        print(f"Total Comparisons for S={i}: {total_comparisons}, Total Time: {total_time}")
-        print("\n")
     
-    print(f"Optimal S Value: {optimal_S} with {min_comparisons} key comparisons")
+    
+    print(f"Optimal S Value: {optimal_S} with {min_avg_comparisons} key comparisons")
     return optimal_S
         
 
@@ -328,7 +338,7 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
 #fixedArraySize_VS_sValue(1,50,1,1000,50,True)
 
 ## To run part C.iii
-differentSValuesVSDifferentArraySize(1,5,1,randomNumRange,3,True)
+differentSValuesVSDifferentArraySize(1,10,1,randomNumRange,5,True, 5)
 
 ## To run part D
 #hybridVsMerge(10000000, randomNumRange, 10, True)
