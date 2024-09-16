@@ -345,4 +345,4 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
 #differentSValuesVSDifferentArraySize(1,10,1,randomNumRange,7,True, 10)
 
 ## To run part D
-#ybridVsMerge(10000000, randomNumRange, 5, True)
+#hybridVsMerge(10000000, randomNumRange, 5, True)
