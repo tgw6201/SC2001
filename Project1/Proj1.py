@@ -291,8 +291,8 @@ def hybridVsMerge(size, maxRange, sValue, dupe):
     # Hybrid Sort
     start = time.time()
     hybridSort(arr,sValue)
-    #end = time.time()
-    #print("Hybrid Sort Key Comparisons: ",hybridSortKeyComparision, " Time Taken: ",end-start)
+    end = time.time()
+    print("Hybrid Sort Key Comparisons: ",hybridSortKeyComparision, " Time Taken: ",end-start)
     hybrid_time = time.time() - start
     hybrid_key_comparisons = hybridSortKeyComparision
     
